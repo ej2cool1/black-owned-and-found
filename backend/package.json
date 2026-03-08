@@ -1,0 +1,25 @@
+{
+  "name": "black-owned-and-found-backend",
+  "version": "1.0.0",
+  "description": "Backend server for Black-Owned & Found capstone project",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.4.1",
+    "@prisma/client": "^7.4.1",
+    "dotenv": "^17.3.1",
+    "express": "^4.19.2",
+    "mysql2": "^3.16.3",
+    "pg": "^8.18.0",
+    "prisma": "^7.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
