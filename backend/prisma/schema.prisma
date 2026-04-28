@@ -17,8 +17,9 @@ model Business {
   id            Int       @id @default(autoincrement())
   name          String
   category      String
-  city          String
+  city          String?
   state         String
+  address       String?
   description   String?
   website       String?
   createdAt     DateTime  @default(now())

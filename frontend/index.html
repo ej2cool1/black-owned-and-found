@@ -106,11 +106,13 @@
     <nav>
       <h1><a href="index.html">Black-Owned & Found</a></h1>
 
-      <input type="text" placeholder="Search businesses">
+      <input type="text" id="searchInput" placeholder="Search businesses">
+      <button id="searchButton">Search</button>
+      <div id="results"></div>
 
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="#">Businesses</a></li>
+        <li><a href="businesses.html">Businesses</a></li>
         <li><a href="add-business.html">Add Business</a></li>
         <li><a href="login.html">Login</a></li>
       </ul>
@@ -121,7 +123,61 @@
       <p>Support Black entrepreneurs in your community.</p>
     </section>
 
-   
+    <script>
+      async function searchBusinesses() {
+      const searchValue = document.getElementById("searchInput").value.trim();
+
+      if (!searchValue) {
+        document.getElementById("results").innerHTML = "<p>Please enter a search.</p>";
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:5001/businesses/search?q=${encodeURIComponent(searchValue)}`
+        );
+
+        const businesses = await response.json();
+
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
+
+        if (businesses.length === 0) {
+          resultsDiv.innerHTML = "<p>No businesses found.</p>";
+          return;
+        }
+
+        businesses.forEach((business) => {
+          const businessCard = document.createElement("div");
+          businessCard.classList.add("business-card");
+
+          businessCard.innerHTML = `
+            <h3>${business.name}</h3>
+            <p><strong>Category:</strong> ${business.category}</p>
+            <p><strong>Location:</strong> ${business.city}, ${business.state}</p>
+            <p>${business.description || ""}</p>
+            <p>
+              ${business.website ? `<a href="${business.website}" target="_blank">Visit Website</a>` : ""}
+            </p>
+            <hr>
+          `;
+
+          resultsDiv.appendChild(businessCard);
+        });
+      } catch (error) {
+        console.error("Frontend search error:", error);
+        document.getElementById("results").innerHTML = "<p>Error searching businesses.</p>";
+      }
+    }
+
+    document.getElementById("searchButton").addEventListener("click", searchBusinesses);
+
+    document.getElementById("searchInput").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        searchBusinesses();
+      }
+    });
+  </script>
 
   </body>
 

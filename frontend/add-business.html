@@ -93,7 +93,7 @@
 
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="#">Businesses</a></li>
+      <li><a href="businesses.html">Businesses</a></li>
       <li><a href="add-business.html">Add Business</a></li>
       <li><a href="login.html">Login</a></li>
     </ul>
@@ -103,20 +103,143 @@
     <h2>Add a Business</h2>
 
     <form id="businessForm">
-      <label for="name">Business Name:</label><br>
-      <input type="text" id="name" name="name" required><br><br>
+  <label for="name">Business Name:</label><br>
+  <input type="text" id="name" name="name" required><br><br>
 
-      <label for="category">Category:</label><br>
-      <input type="text" id="category" name="category" required><br><br>
+  <label for="category">Category:</label><br>
+<select id="category" name="category" required>
+  <option value="">Select a category</option>
 
-      <label for="city">City:</label><br>
-      <input type="text" id="city" name="city" required><br><br>
+  <option value="Restaurant">Restaurant</option>
+  <option value="Food Truck">Food Truck</option>
+  <option value="Bakery & Desserts">Bakery & Desserts</option>
 
-      <button type="submit">Submit</button>
-    </form>
+  <option value="Retail">Retail / Clothing</option>
+  <option value="Beauty">Beauty (Hair, Nails, Barber)</option>
+  <option value="Health">Health & Wellness</option>
+  <option value="Fitness">Fitness / Gym</option>
+
+  <option value="Technology">Technology</option>
+  <option value="Professional Services">Professional Services</option>
+  <option value="Automotive">Automotive</option>
+  <option value="Education">Education / Tutoring</option>
+
+  <option value="Entertainment">Entertainment</option>
+  <option value="Real Estate">Real Estate</option>
+
+  <option value="Other">Other</option>
+</select><br><br>
+
+  <label for="city">City:</label><br>
+  <input type="text" id="city" name="city" required><br><br>
+
+  <label for="state">State:</label><br>
+  <select id="state" name="state" required>
+    <option value="">Select State</option>
+    <option value="Alabama">Alabama</option>
+    <option value="Alaska">Alaska</option>
+    <option value="Arizona">Arizona</option>
+    <option value="Arkansas">Arkansas</option>
+    <option value="California">California</option>
+    <option value="Colorado">Colorado</option>
+    <option value="Connecticut">Connecticut</option>
+    <option value="Delaware">Delaware</option>
+    <option value="Florida">Florida</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Hawaii">Hawaii</option>
+    <option value="Idaho">Idaho</option>
+    <option value="Illinois">Illinois</option>
+    <option value="Indiana">Indiana</option>
+    <option value="Iowa">Iowa</option>
+    <option value="Kansas">Kansas</option>
+    <option value="Kentucky">Kentucky</option>
+    <option value="Louisiana">Louisiana</option>
+    <option value="Maine">Maine</option>
+    <option value="Maryland">Maryland</option>
+    <option value="Massachusetts">Massachusetts</option>
+    <option value="Michigan">Michigan</option>
+    <option value="Minnesota">Minnesota</option>
+    <option value="Mississippi">Mississippi</option>
+    <option value="Missouri">Missouri</option>
+    <option value="Montana">Montana</option>
+    <option value="Nebraska">Nebraska</option>
+    <option value="Nevada">Nevada</option>
+    <option value="New Hampshire">New Hampshire</option>
+    <option value="New Jersey">New Jersey</option>
+    <option value="New Mexico">New Mexico</option>
+    <option value="New York">New York</option>
+    <option value="North Carolina">North Carolina</option>
+    <option value="North Dakota">North Dakota</option>
+    <option value="Ohio">Ohio</option>
+    <option value="Oklahoma">Oklahoma</option>
+    <option value="Oregon">Oregon</option>
+    <option value="Pennsylvania">Pennsylvania</option>
+    <option value="Rhode Island">Rhode Island</option>
+    <option value="South Carolina">South Carolina</option>
+    <option value="South Dakota">South Dakota</option>
+    <option value="Tennessee">Tennessee</option>
+    <option value="Texas">Texas</option>
+    <option value="Utah">Utah</option>
+    <option value="Vermont">Vermont</option>
+    <option value="Virginia">Virginia</option>
+    <option value="Washington">Washington</option>
+    <option value="West Virginia">West Virginia</option>
+    <option value="Wisconsin">Wisconsin</option>
+    <option value="Wyoming">Wyoming</option>
+  </select><br><br>
+
+<label for="address">Address:</label><br>
+<input type="text" id="address" name="address" required><br><br>
+
+  <label for="description">Description:</label><br>
+  <textarea id="description" name="description"></textarea><br><br>
+
+  <label for="website">Website:</label><br>
+  <input type="url" id="website" name="website"><br><br>
+
+  <button type="submit">Submit</button>
+</form>
 
     <p id="message"></p>
   </section>
+
+  <script>
+    document.getElementById("businessForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const businessData = {
+        name: document.getElementById("name").value,
+        category: document.getElementById("category").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        state: document.getElementById("state").value,
+        description: document.getElementById("description").value,
+        website: document.getElementById("website").value
+      };
+
+      try {
+        const response = await fetch("http://localhost:5001/businesses", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(businessData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          document.getElementById("message").textContent = "Business added successfully!";
+          document.getElementById("businessForm").reset();
+        } else {
+          document.getElementById("message").textContent = result.error || "Failed to add business.";
+        }
+      } catch (error) {
+        console.error(error);
+        document.getElementById("message").textContent = "Something went wrong.";
+      }
+    });
+  </script>
 
 </body>
 </html>
