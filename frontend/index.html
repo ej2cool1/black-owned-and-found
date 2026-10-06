@@ -1,50 +1,47 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
+<head>
   <title>Black-Owned & Found</title>
 
   <style>
-    body{
+    body {
       background-color: rgb(127, 65, 2);
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
 
     nav {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 280px 1fr auto;
       align-items: center;
       background-color: black;
       padding: 15px 40px;
+      gap: 30px;
     }
 
     nav h1 {
       color: yellow;
       margin: 0;
+      white-space: normal;
     }
+
 
     nav ul {
       color: yellow;
       align-items: center;
       list-style: none;
       display: flex;
-      gap: 20px;
+      gap: 30px;
       margin: 0;
+      padding: 0;
+      white-space: nowrap;
     }
-    
-    nav input {
-      padding: 8px;
-      width: 350px;
-      border-radius: 5px;
-      border: none;
-    }
-    
+
     nav a {
       color: yellow;
       text-decoration: none;
-    }
-
-    nav ul a {
-      color: yellow;
+      font-family: Georgia, serif;
+      font-weight: bold;
     }
 
     nav a:hover {
@@ -52,98 +49,182 @@
     }
 
     .hero {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: black;
+      border-radius: 10px;
+      color: white;
       text-align: center;
-      margin-top: 60px;
     }
 
     .hero h3 {
       color: yellow;
       font-size: 36px;
+      margin-top: 0;
       margin-bottom: 10px;
     }
 
     .hero p {
-      color: yellow;
       font-size: 18px;
     }
 
-    #add-business {
-  margin-top: 80px;
-  text-align: center;
-  color: yellow;
-  }
+    #results {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: black;
+      border-radius: 10px;
+      color: white;
 
-  #add-business h2 {
-    color: yellow;
-  }
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
 
-  #add-business label {
-    color: yellow;
-  }
+    .business-card {
+      background-color: rgb(30, 30, 30);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid #444;
+    }
 
-  #add-business input {
-    padding: 8px;
-    width: 250px;
-    border-radius: 5px;
-    border: none;
-  }
+    .business-card h3 {
+      color: yellow;
+      margin-top: 0;
+    }
 
-  #add-business button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: black;
-    color: yellow;
-    cursor: pointer;
-  }
+    .business-card p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
 
+    .business-card a {
+      color: yellow;
+      font-weight: bold;
+    }
+
+    .search-area {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-self: start;
+      margin-left: 0;
+    }
+
+    .search-area input,
+    .search-area select {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .search-area input {
+      width: 220px;
+    }
+
+    .search-area button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 5px;
+      background-color: yellow;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
+</head>
 
-  </head>
+<body>
 
-  <body>
+  <nav>
+    <h1><a href="index.html">Black-Owned & Found</a></h1>
 
-    <nav>
-      <h1><a href="index.html">Black-Owned & Found</a></h1>
-
+    <div class="search-area">
       <input type="text" id="searchInput" placeholder="Search businesses">
+
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <option value="Restaurant">Restaurant</option>
+        <option value="Food Truck">Food Truck</option>
+        <option value="Bakery & Desserts">Bakery & Desserts</option>
+        <option value="Retail">Retail / Clothing</option>
+        <option value="Beauty">Beauty (Hair, Nails, Barber)</option>
+        <option value="Health">Health & Wellness</option>
+        <option value="Fitness">Fitness / Gym</option>
+        <option value="Technology">Technology</option>
+        <option value="Professional Services">Professional Services</option>
+        <option value="Automotive">Automotive</option>
+        <option value="Education">Education / Tutoring</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Real Estate">Real Estate</option>
+        <option value="Other">Other</option>
+      </select>
+
       <button id="searchButton">Search</button>
-      <div id="results"></div>
+    </div>
 
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="businesses.html">Businesses</a></li>
-        <li><a href="add-business.html">Add Business</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="businesses.html">Businesses</a></li>
+      <li><a href="add-business.html">Add Business</a></li>
+      <li id="authLink"></li>
+    </ul>
+  </nav>
 
-    <section class="hero">
-      <h3>Discover Black-Owned Businesses Near You</h3>
-      <p>Support Black entrepreneurs in your community.</p>
-    </section>
+  <section class="hero">
+    <h3>Discover Black-Owned Businesses Near You</h3>
+    <p>Support Black entrepreneurs in your community.</p>
+  </section>
 
-    <script>
-      async function searchBusinesses() {
+  <div id="results"></div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    const authLink = document.getElementById("authLink");
+
+    if (user) {
+      authLink.innerHTML = `
+        <span style="color: yellow;">Welcome, ${user.name || "User"}</span>
+        <a href="#" onclick="logout()" style="margin-left: 10px;">Logout</a>
+      `;
+    } else {
+      authLink.innerHTML = `<a href="login.html">Login</a>`;
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    }
+
+    async function searchBusinesses() {
       const searchValue = document.getElementById("searchInput").value.trim();
+      const categoryValue = document.getElementById("categoryFilter").value.trim();
+      const resultsDiv = document.getElementById("results");
 
-      if (!searchValue) {
-        document.getElementById("results").innerHTML = "<p>Please enter a search.</p>";
+      resultsDiv.innerHTML = "";
+
+      if (!searchValue && !categoryValue) {
+        resultsDiv.innerHTML = "<p style='color: yellow; text-align: center;'>Please enter a search or select a category.</p>";
         return;
       }
 
       try {
-        const response = await fetch(
-          `http://localhost:5001/businesses/search?q=${encodeURIComponent(searchValue)}`
-        );
+        let url = `http://localhost:5001/businesses/search?`;
 
+        if (searchValue) {
+          url += `q=${encodeURIComponent(searchValue)}&`;
+        }
+
+        if (categoryValue) {
+          url += `category=${encodeURIComponent(categoryValue)}`;
+        }
+
+        const response = await fetch(url);
         const businesses = await response.json();
 
-        const resultsDiv = document.getElementById("results");
-        resultsDiv.innerHTML = "";
-
         if (businesses.length === 0) {
-          resultsDiv.innerHTML = "<p>No businesses found.</p>";
+          resultsDiv.innerHTML = "<p style='color: yellow; text-align: center;'>No businesses found.</p>";
           return;
         }
 
@@ -155,18 +236,19 @@
             <h3>${business.name}</h3>
             <p><strong>Category:</strong> ${business.category}</p>
             <p><strong>Location:</strong> ${business.city}, ${business.state}</p>
+            <p><strong>Address:</strong> ${business.address || "No address listed"}</p>
             <p>${business.description || ""}</p>
             <p>
               ${business.website ? `<a href="${business.website}" target="_blank">Visit Website</a>` : ""}
             </p>
-            <hr>
           `;
 
           resultsDiv.appendChild(businessCard);
         });
+
       } catch (error) {
         console.error("Frontend search error:", error);
-        document.getElementById("results").innerHTML = "<p>Error searching businesses.</p>";
+        resultsDiv.innerHTML = "<p style='color: yellow; text-align: center;'>Error searching businesses.</p>";
       }
     }
 
@@ -177,9 +259,9 @@
         searchBusinesses();
       }
     });
+
+    document.getElementById("categoryFilter").addEventListener("change", searchBusinesses);
   </script>
 
-  </body>
-
-
+</body>
 </html>
